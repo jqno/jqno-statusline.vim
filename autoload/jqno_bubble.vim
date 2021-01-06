@@ -48,7 +48,7 @@ function! jqno_bubble#statusline() abort
     let l:statusline .= jqno_bubble#bubble(l:is_active . ' && mode() == "r"', 'R', 'SLinsertmode')
     let l:statusline .= jqno_bubble#bubble(l:is_active . ' && mode() == "v" || mode() == ""', 'V', 'SLvisualmode')
     let l:statusline .= jqno_bubble#bubble(l:is_active, 'jqnostatusline#functions#filename()', 'SLnormalmode', v:true)
-    let l:statusline .= '%#StatusLineNC#%{' . l:is_not_active . ' ? "       " . jqnostatusline#functions#filename() : ""}'
+    let l:statusline .= '%#SLbackground#%{' . l:is_not_active . ' ? "       " . jqnostatusline#functions#filename() : ""}'
     let l:statusline .= '%<'
     let l:statusline .= jqno_bubble#bubble(l:is_active, l:mods, 'SLnormalmode')
     let l:statusline .= jqno_bubble#bubble(l:is_active_not_terminal, l:modification, 'SLnormalmode')
