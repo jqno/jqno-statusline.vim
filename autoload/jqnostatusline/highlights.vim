@@ -11,11 +11,12 @@ function! jqnostatusline#highlights#define_fancy() abort
     let l:black = 'Black'
     let l:defaults = jqnostatusline#highlights#colors(l:black, l:black, l:black, l:black)
     let l:constant = jqnostatusline#highlights#get_colors_of('Constant', l:defaults)
+    let l:visual = jqnostatusline#highlights#get_colors_of('Visual', l:defaults)
     let l:statuslinenc = jqnostatusline#highlights#get_colors_of('StatusLineNC', l:defaults)
 
     let l:slnormalmode = jqnostatusline#highlights#get_colors_of('StatusLine', l:defaults)
-    let l:slinsertmode = jqnostatusline#highlights#colors(l:constant['cterm-fg'], l:black, l:constant['gui-fg'], l:black)
-    let l:slvisualmode = jqnostatusline#highlights#get_colors_of('Visual', l:defaults)
+    let l:slinsertmode = jqnostatusline#highlights#colors(l:slnormalmode['cterm-fg'], l:constant['cterm-fg'], l:slnormalmode['gui-fg'], l:constant['gui-fg'])
+    let l:slvisualmode = jqnostatusline#highlights#colors(l:slnormalmode['cterm-fg'], l:visual['cterm-bg'], l:slnormalmode['gui-fg'], l:visual['gui-bg'])
     let l:slok = jqnostatusline#highlights#get_colors_of('DiffAdd', l:defaults)
     let l:slwarning = jqnostatusline#highlights#get_colors_of('DiffChange', l:defaults)
     let l:slerror = jqnostatusline#highlights#get_colors_of('DiffDelete', l:defaults)
