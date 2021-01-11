@@ -22,6 +22,16 @@ function! jqnostatusline#functions#wrap(s, prefix, suffix) abort
     endif
 endfunction
 
+function! jqnostatusline#functions#projectname() abort
+    let l:tab = tabpagenr()
+    let l:buflist = tabpagebuflist(l:tab)
+    let l:winnr = tabpagewinnr(l:tab)
+    let l:cwd = getcwd(l:winnr)
+    let l:projectname = fnamemodify(l:cwd, ':t')
+    let l:result = empty(l:projectname) ? g:jqnostatusline#constants#EMPTY : l:projectname
+    return l:result
+endfunction
+
 function! jqnostatusline#functions#filename() abort
     let l:tab = tabpagenr()
     let l:buflist = tabpagebuflist(l:tab)

@@ -2,23 +2,27 @@ function! jqno_bubble#bubble(b, text, group, is_a_fn = v:false) abort
     let l:result = ''
     if !empty(a:text)
         let l:result .= '%#' . a:group . 'I#%{' . a:b . ' ? "  ' . g:jqnostatusline#constants#OPEN . '" : ""}'
-        if a:is_a_fn
-            let l:result .= '%#' . a:group . '#%{' . a:b . ' ? ' . a:text . ' : ""}'
-        else
-            let l:result .= '%#' . a:group . '#%{' . a:b . ' ? "' . a:text . '" : ""}'
-        endif
+        let l:result .= jqno_bubble#print_in_bubble(a:b, '', a:text, '', a:group, a:is_a_fn)
         let l:result .= '%#' . a:group . 'I#%{' . a:b . ' ? "' . g:jqnostatusline#constants#CLOSE . '" : ""}'
     endif
     return l:result
 endfunction
 
-function! jqno_bubble#double_bubble(b, text1, group1, text2, group2) abort
+function! jqno_bubble#double_bubble(b, text1, group1, text2, group2, is_a_fn = v:false) abort
     let l:result = ''
     let l:result .= '%#' . a:group1 . 'I#%{' . a:b . ' ? "  ' . g:jqnostatusline#constants#OPEN . '" : ""}'
-    let l:result .= '%#' . a:group1 . '#%{' . a:b . ' ? "' . a:text1 . ' " : ""}'
-    let l:result .= '%#' . a:group2 . '#%{' . a:b . ' ? "  ' . a:text2 . '" : ""}'
+    let l:result .= jqno_bubble#print_in_bubble(a:b, '', a:text1, ' ', a:group1, a:is_a_fn)
+    let l:result .= jqno_bubble#print_in_bubble(a:b, '  ', a:text2, '', a:group2, a:is_a_fn)
     let l:result .= '%#' . a:group2 . 'I#%{' . a:b . ' ? "' . g:jqnostatusline#constants#CLOSE . '" : ""}'
     return l:result
+endfunction
+
+function! jqno_bubble#print_in_bubble(b, pre, text, post, group, is_a_fn) abort
+    if a:is_a_fn
+        return '%#' . a:group . '#%{' . a:b . ' ? "' . a:pre . '" . ' . a:text . ' . "' . a:post . '" : ""}'
+    else
+        return '%#' . a:group . '#%{' . a:b . ' ? "' . a:pre . a:text . a:post . '" : ""}'
+    endif
 endfunction
 
 function! jqno_bubble#highlight() abort
@@ -47,7 +51,7 @@ function! jqno_bubble#statusline() abort
     let l:statusline .= jqno_bubble#bubble(l:is_active . ' && mode() == "i"', 'I', 'SLinsertmode')
     let l:statusline .= jqno_bubble#bubble(l:is_active . ' && mode() == "r"', 'R', 'SLinsertmode')
     let l:statusline .= jqno_bubble#bubble(l:is_active . ' && mode() == "v" || mode() == ""', 'V', 'SLvisualmode')
-    let l:statusline .= jqno_bubble#bubble(l:is_active, 'jqnostatusline#functions#filename()', 'SLnormalmode', v:true)
+    let l:statusline .= jqno_bubble#double_bubble(l:is_active, 'jqnostatusline#functions#filename()', 'SLnormalmode', 'jqnostatusline#functions#projectname()', 'SLvisualmode', v:true)
     let l:statusline .= '%#SLbackground#%{' . l:is_not_active . ' ? "       " . jqnostatusline#functions#filename() : ""}'
     let l:statusline .= '%<'
     let l:statusline .= jqno_bubble#bubble(l:is_active, l:mods, 'SLnormalmode')

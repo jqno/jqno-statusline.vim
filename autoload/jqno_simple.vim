@@ -38,7 +38,7 @@ function! jqno_simple#statusline() abort
             \ '%{' . l:is_active .' ? "" : "     "}' .
             \ ' ' .
             \ '%<' .
-            \ '%t' .
+            \ '%{jqnostatusline#functions#projectname()} / %{jqnostatusline#functions#filename()}' .
             \ '%{'. l:is_active .' ? "'. l:mods .'" : ""}' .
             \ '%{'. l:is_active_not_terminal .' ? "'. l:modification .'" : ""}' .
             \ '%*' .
