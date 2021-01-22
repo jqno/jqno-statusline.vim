@@ -42,17 +42,35 @@ function! jqnostatusline#functions#filename() abort
 endfunction
 
 function! jqnostatusline#functions#modifiers(is_not_terminal) abort
-    let l:result = ''
-    let l:result .= &readonly ? 'RO' : ''
-    let l:result .= &readonly && &previewwindow ? g:jqnostatusline#constants#PIPE : ''
-    let l:result .= &previewwindow ? 'P' : ''
-    return l:result
-endfunction
+    let l:ro = &readonly ? 'RO' : ''
+    let l:preview = &previewwindow ? 'P' : ''
+    let l:modifiable = &modifiable ? '' : '-'
+    let l:modified = &modified ? '+' : ''
+    let l:wrapped_pipe = ' ' . g:jqnostatusline#constants#PIPE . ' '
 
-function! jqnostatusline#functions#modification() abort
     let l:result = ''
-    let l:result .= &modifiable ? '' : '-'
-    let l:result .= &modified ? '+' : ''
+    if l:ro !=# ''
+        let l:result .= l:ro
+    endif
+    if l:preview !=# ''
+        if l:result !=# ''
+            let l:result .= l:wrapped_pipe
+        endif
+        let l:result .= l:preview
+    endif
+    if l:modifiable !=# ''
+        if l:result !=# ''
+            let l:result .= l:wrapped_pipe
+        endif
+        let l:result .= l:modifiable
+    endif
+    if l:modified !=# ''
+        if l:result !=# ''
+            let l:result .= l:wrapped_pipe
+        endif
+        let l:result .= l:modified
+    endif
+
     return l:result
 endfunction
 

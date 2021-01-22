@@ -35,8 +35,7 @@ function! jqno_bubble#statusline() abort
     let l:is_not_terminal = jqnostatusline#functions#is_not_terminal()
     let l:is_active_not_terminal = jqnostatusline#functions#is_active_not_terminal()
 
-    let l:mods = jqnostatusline#functions#modifiers(l:is_not_terminal)
-    let l:modification = jqnostatusline#functions#modification()
+    let l:modifiers = jqnostatusline#functions#modifiers(l:is_not_terminal)
 
     let l:ale_status = jqnostatusline#functions#status()
     let l:ale_ok = l:ale_status['ok']
@@ -54,8 +53,7 @@ function! jqno_bubble#statusline() abort
     let l:statusline .= jqno_bubble#double_bubble(l:is_active, 'jqnostatusline#functions#filename()', 'SLnormalmode', 'jqnostatusline#functions#projectname()', 'SLvisualmode', v:true)
     let l:statusline .= '%#SLbackground#%{' . l:is_not_active . ' ? "       " . jqnostatusline#functions#filename() : ""}'
     let l:statusline .= '%<'
-    let l:statusline .= jqno_bubble#bubble(l:is_active, l:mods, 'SLnormalmode')
-    let l:statusline .= jqno_bubble#bubble(l:is_active_not_terminal, l:modification, 'SLnormalmode')
+    let l:statusline .= jqno_bubble#bubble(l:is_active, l:modifiers, 'SLnormalmode')
     let l:statusline .= '%='
     let l:statusline .= jqno_bubble#bubble(l:is_active_not_terminal, l:lsp_status, 'SLvisualmode')
     let l:statusline .= jqno_bubble#bubble(l:is_active_not_terminal, jqnostatusline#functions#metadata(), 'SLnormalmode')

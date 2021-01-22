@@ -16,7 +16,6 @@ function! jqno_simple#statusline() abort
     let l:ale_error = l:ale_status['error']
 
     let l:mods = jqnostatusline#functions#wrap(jqnostatusline#functions#modifiers(l:is_not_terminal), l:wrapped_pipe, ' ')
-    let l:modification = jqnostatusline#functions#wrap(jqnostatusline#functions#modification(), l:wrapped_pipe, '')
 
     let l:lsp_status = jqnostatusline#functions#wrap(jqnostatusline#functions#lsp_status(), '', l:wrapped_pipe)
 
@@ -40,7 +39,6 @@ function! jqno_simple#statusline() abort
             \ '%<' .
             \ '%{jqnostatusline#functions#projectname()} / %{jqnostatusline#functions#filename()} ' .
             \ '%{'. l:is_active .' ? "'. l:mods .'" : ""}' .
-            \ '%{'. l:is_active_not_terminal .' ? "'. l:modification .'" : ""}' .
             \ '%*' .
             \ '%=' .
             \ ' ' .
