@@ -61,7 +61,7 @@ function! jqnostatusline#highlights#colors(cterm_fg, cterm_bg, gui_fg, gui_bg) a
 endfunction
 
 function! jqnostatusline#highlights#define_group(group, colors) abort
-    exe printf('hi %s ctermfg=%s ctermbg=%s guifg=%s guibg=%s',
+    exe printf('hi def %s ctermfg=%s ctermbg=%s guifg=%s guibg=%s',
         \ a:group,
         \ a:colors['cterm-fg'],
         \ a:colors['cterm-bg'],
