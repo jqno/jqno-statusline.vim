@@ -12,11 +12,12 @@ function! jqnostatusline#highlights#define_fancy() abort
     let l:defaults = jqnostatusline#highlights#colors(l:black, l:black, l:black, l:black)
     let l:constant = jqnostatusline#highlights#get_colors_of('Constant', l:defaults)
     let l:visual = jqnostatusline#highlights#get_colors_of('Visual', l:defaults)
+    let l:statusline = jqnostatusline#highlights#get_colors_of('StatusLine', l:defaults)
     let l:statuslinenc = jqnostatusline#highlights#get_colors_of('StatusLineNC', l:defaults)
 
-    let l:slnormalmode = jqnostatusline#highlights#get_colors_of('StatusLine', l:defaults)
-    let l:slinsertmode = jqnostatusline#highlights#colors(l:slnormalmode['cterm-fg'], l:constant['cterm-fg'], l:slnormalmode['gui-fg'], l:constant['gui-fg'])
-    let l:slvisualmode = jqnostatusline#highlights#colors(l:slnormalmode['cterm-fg'], l:visual['cterm-bg'], l:slnormalmode['gui-fg'], l:visual['gui-bg'])
+    let l:slnormalmode = jqnostatusline#highlights#colors(l:statusline['cterm-bg'], l:statusline['cterm-fg'], l:statusline['gui-bg'], l:statusline['gui-fg'])
+    let l:slinsertmode = jqnostatusline#highlights#colors(l:statusline['cterm-fg'], l:constant['cterm-fg'], l:statusline['gui-fg'], l:constant['gui-fg'])
+    let l:slvisualmode = jqnostatusline#highlights#colors(l:statusline['cterm-fg'], l:visual['cterm-bg'], l:statusline['gui-fg'], l:visual['gui-bg'])
     let l:slok = jqnostatusline#highlights#get_colors_of('DiffAdd', l:defaults)
     let l:slwarning = jqnostatusline#highlights#get_colors_of('DiffChange', l:defaults)
     let l:slerror = jqnostatusline#highlights#get_colors_of('DiffDelete', l:defaults)
@@ -45,10 +46,20 @@ endfunction
 
 function! jqnostatusline#highlights#get_colors_of(group, defaults) abort
     let l:id = synIDtrans(hlID(a:group))
-    let l:cterm_fg = synIDattr(l:id, 'fg', 'cterm')
-    let l:cterm_bg = synIDattr(l:id, 'bg', 'cterm')
-    let l:gui_fg = synIDattr(l:id, 'fg', 'gui')
-    let l:gui_bg = synIDattr(l:id, 'bg', 'gui')
+    if synIDattr(l:id, 'reverse', 'cterm') == 1
+        let l:cterm_fg = synIDattr(l:id, 'bg', 'cterm')
+        let l:cterm_bg = synIDattr(l:id, 'fg', 'cterm')
+    else
+        let l:cterm_fg = synIDattr(l:id, 'fg', 'cterm')
+        let l:cterm_bg = synIDattr(l:id, 'bg', 'cterm')
+    endif
+    if synIDattr(l:id, 'reverse', 'gui') == 1
+        let l:gui_fg = synIDattr(l:id, 'bg', 'gui')
+        let l:gui_bg = synIDattr(l:id, 'fg', 'gui')
+    else
+        let l:gui_fg = synIDattr(l:id, 'fg', 'gui')
+        let l:gui_bg = synIDattr(l:id, 'bg', 'gui')
+    endif
     return jqnostatusline#highlights#colors(
         \ empty(l:cterm_fg) ? a:defaults['cterm-fg'] : l:cterm_fg,
         \ empty(l:cterm_bg) ? a:defaults['cterm-bg'] : l:cterm_bg,
