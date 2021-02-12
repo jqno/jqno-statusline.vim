@@ -57,7 +57,7 @@ function! jqno_bubble#statusline() abort
     let l:statusline .= '%='
     let l:statusline .= jqno_bubble#bubble(l:is_active_not_terminal, l:lsp_status, 'SLvisualmode')
     let l:statusline .= jqno_bubble#bubble(l:is_active_not_terminal, jqnostatusline#functions#metadata(), 'SLnormalmode')
-    let l:statusline .= jqno_bubble#double_bubble(l:is_active_not_terminal, line('.') . ':' . col('.'), 'SLnormalmode', line('$'), 'SLvisualmode')
+    let l:statusline .= jqno_bubble#double_bubble(l:is_active_not_terminal, line('.') . ':' . col('.'), 'SLnormalmode', line('$') . ':' . (col('$')-1), 'SLvisualmode')
     let l:statusline .= jqno_bubble#bubble(l:is_active_not_terminal, l:ale_ok, 'SLok')
     if empty(l:ale_warning) || empty(l:ale_error)
         let l:statusline .= jqno_bubble#bubble(l:is_active_not_terminal, l:ale_warning, 'SLwarning')
