@@ -123,6 +123,10 @@ function! jqnostatusline#functions#metadata() abort
     return l:fileencoding . l:fileformat . l:filetype
 endfunction
 
+function! jqnostatusline#functions#wordcount()
+    return wordcount()['words']
+endfunction
+
 function! jqnostatusline#functions#lsp_status() abort
     return exists('g:did_coc_loaded') ? coc#status() : ''
 endfunction

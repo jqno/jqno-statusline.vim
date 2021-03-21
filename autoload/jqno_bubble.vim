@@ -55,6 +55,9 @@ function! jqno_bubble#statusline() abort
     let l:statusline .= '%<'
     let l:statusline .= jqno_bubble#bubble(l:is_active, l:modifiers, 'SLnormalmode')
     let l:statusline .= '%='
+    if &filetype ==# 'markdown'
+        let l:statusline .= jqno_bubble#bubble(l:is_active_not_terminal, jqnostatusline#functions#wordcount() . ' words', 'SLvisualmode')
+    endif
     let l:statusline .= jqno_bubble#bubble(l:is_active_not_terminal, l:lsp_status, 'SLvisualmode')
     let l:statusline .= jqno_bubble#bubble(l:is_active_not_terminal, jqnostatusline#functions#metadata(), 'SLnormalmode')
     let l:statusline .= jqno_bubble#double_bubble(l:is_active_not_terminal, line('.') . ':' . col('.'), 'SLnormalmode', line('$') . ':' . (col('$')-1), 'SLvisualmode')
